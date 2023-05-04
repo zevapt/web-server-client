@@ -32,11 +32,12 @@ while True:
     print(f"HTTP request path: {request_path}")
     print(f"HTTP request protocol: {request_protocol}")
 
-    # cari file yang diminta oleh client
+    # cari file yang diminta oleh client (masih blum bisa tp hrsnya udh bener)
     file_path = "." + request_path
     if os.path.isfile(file_path):
-        # buat HTTP response message dengan status code 200 OK
-        response_data = f"HTTP/1.1 200 OK\r\n\r\n{open(file_path).read()}".encode()
+        # buat HTTP response message dengan status code 200 OK (header + content)
+        with open(file_path, 'rb') as file:
+            response_data = b"HTTP/1.1 200 OK\r\n\r\n" + file.read()
     else:
         # buat HTTP response message dengan status code 404 Not Found
         response_data = b"HTTP/1.1 404 Not Found\r\n\r\nFile not found"
